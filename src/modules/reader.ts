@@ -22,9 +22,7 @@ export function registerReaderInitializer() {
 
       // TEMP: If not many annotations, create the button immediately
       if (reader._item.numAnnotations() < 1000) {
-        append(
-          createTranslateAnnotationButton(doc, reader, annotationData),
-        );
+        append(createTranslateAnnotationButton(doc, reader, annotationData));
         return;
       }
 
@@ -43,10 +41,7 @@ export function registerReaderInitializer() {
           button.innerHTML = SVGIcon;
           button.title = getString("sideBarIcon-title");
           button.addEventListener("click", (e) => {
-            const task = addTranslateAnnotationTask(
-              libraryID,
-              annotationID!,
-            );
+            const task = addTranslateAnnotationTask(libraryID, annotationID!);
             addon.hooks.onTranslate(task, {
               noCheckZoteroItemLanguage: true,
               noDisplay: true,
@@ -58,9 +53,7 @@ export function registerReaderInitializer() {
               "var(--color-sidepane)";
           });
           button.addEventListener("mouseout", (e) => {
-            (e.target as HTMLElement).style.removeProperty(
-              "background-color",
-            );
+            (e.target as HTMLElement).style.removeProperty("background-color");
           });
           placeholder.replaceWith(button);
         });
@@ -107,9 +100,7 @@ function createTranslateAnnotationButton(
       {
         type: "mouseout",
         listener: (e) => {
-          (e.target as HTMLElement).style.removeProperty(
-            "background-color",
-          );
+          (e.target as HTMLElement).style.removeProperty("background-color");
         },
       },
     ],

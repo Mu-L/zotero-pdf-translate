@@ -193,6 +193,12 @@ function buildPrefsPane() {
     });
 
   doc
+    .querySelector(`#${makeId("annotationTranslationPosition")}`)
+    ?.addEventListener("command", (e: Event) => {
+      onPrefsEvents("setAnnotationTranslationPosition");
+    });
+
+  doc
     .querySelector(`#${makeId("enablePopup")}`)
     ?.addEventListener("command", (e: Event) => {
       onPrefsEvents("setEnablePopup");
@@ -277,6 +283,7 @@ function buildPrefsPane() {
 
 function updatePrefsPaneDefault() {
   onPrefsEvents("setAutoTranslateAnnotation", false);
+  onPrefsEvents("setAnnotationTranslationPosition", false);
   onPrefsEvents("setEnablePopup", false);
   onPrefsEvents("setShowPlayBtn", false);
   onPrefsEvents("setUseWordService", false);
@@ -305,6 +312,19 @@ function onPrefsEvents(type: string, fromElement: boolean = true) {
     case "setAutoTranslateAnnotation":
       {
         addon.hooks.onReaderTabPanelRefresh();
+      }
+      break;
+    case "setAnnotationTranslationPosition":
+      {
+        const elemValue = fromElement
+          ? (
+              doc.querySelector(
+                `#${makeId("annotationTranslationPosition")}`,
+              ) as XUL.Element
+            ).getAttribute("value")
+          : (getPref("annotationTranslationPosition") as string);
+        const hidden = elemValue !== "body";
+        setDisabled("annotation-translation-position-in-body", hidden);
       }
       break;
     case "setEnablePopup":
